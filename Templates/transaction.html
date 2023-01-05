@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- custom css file link -->
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename = 'css/style.css')}}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <form action="{{ url_for('predict')}}" method="post">
+        <div class="row">
+          <div class="col">
+            <h3 class="title">TRANSACTION</h3>
+            <hr color="white" />
+
+            <div class="row">
+              <div class="col">
+                <h5 class="subtitle">Details of Transaction Originator</h5>
+                <div class="inputBox">
+                  <span>Account Number</span>
+                  <input
+                    type="text"
+                    placeholder="2134559968"
+                    name="sendersAccountNum"
+                  />
+                </div>
+                <div class="inputBox">
+                  <span>Amount Sent </span>
+                  <input type="text" placeholder="30000" name="amount" />
+                </div>
+                <div class="inputBox">
+                  <span>Balance before transaction </span>
+                  <input
+                    type="text"
+                    placeholder="123 456"
+                    name="sendersBalanceA"
+                  />
+                </div>
+                <div class="inputBox">
+                  <span>Balance after transaction </span>
+                  <input
+                    type="text"
+                    placeholder="123 456"
+                    vname="sendersBalanceB"
+                  />
+                </div>
+              </div>
+
+              <div class="col">
+                <h5 class="subtitle">Details of Receiver</h5>
+                <div class="inputBox">
+                  <span> Account Number </span>
+                  <input
+                    type="text"
+                    placeholder="2134559968"
+                    name="receiversAccountNum"
+                  />
+                </div>
+                <div class="inputBox">
+                  <span>Balance before Credit</span>
+                  <input
+                    type="text"
+                    placeholder="123"
+                    name="receiversBalanceA"
+                  />
+                </div>
+                <div class="inputBox">
+                  <span>Balance after Credit </span>
+                  <input
+                    type="text"
+                    placeholder="123 456"
+                    name="receiversBalanceB"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="inputBox">
+                <span>Does The Transaction Look Fradulent? </span>
+                <select name="IsFlaggedFraud" id="isFlaggedFraud">
+                  <option value="1">Yes</option>
+                  <option value="0">No</option>
+                </select>
+              </div>
+              <div class="inputBox">
+                <span>Transaction Type </span>
+                <select name="type" id="type">
+                  <option value="DEBIT">Debit</option>
+                  <option value="4">Transfer</option>
+                  <option value="3">Payment</option>
+                  <option value="CASH_IN">Cash In</option>
+                  <option value="1">Cash out</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <buttom type="submit" value="" class="submit-btn">PREDICT</buttom>
+      </form>
+    </div>
+
+    <div>
+      <h2>{{prediction_text}}</h2>
+    </div>
+  </body>
+</html>
