@@ -10,10 +10,19 @@
       rel="stylesheet"
       href="{{url_for('static', filename = 'css/style.css')}}"
     />
+    <script>
+      var text = document.getElementById("result").innerHTML;
+      var change = document.getElementById("result");
+      if (text == "This transaction is not fraudulent") {
+        change.classList.add("green");
+      } else {
+        change.classList.add("red");
+      }
+    </script>
   </head>
   <body>
     <div class="container">
-      <form action="{{ url_for('predict')}}" method="post">
+      <form action="{{ url_for('predict')}}" method="POST">
         <div class="row">
           <div class="col">
             <h3 class="title">TRANSACTION</h3>
@@ -27,19 +36,26 @@
                   <input
                     type="text"
                     placeholder="2134559968"
-                    name="sendersAccountNum"
+                    name="nameOrig"
+                    required
                   />
                 </div>
                 <div class="inputBox">
                   <span>Amount Sent </span>
-                  <input type="text" placeholder="30000" name="amount" />
+                  <input
+                    type="text"
+                    placeholder="30000"
+                    name="amount"
+                    required
+                  />
                 </div>
                 <div class="inputBox">
                   <span>Balance before transaction </span>
                   <input
                     type="text"
                     placeholder="123 456"
-                    name="sendersBalanceA"
+                    name="oldbalanceOrg"
+                    required
                   />
                 </div>
                 <div class="inputBox">
@@ -47,7 +63,8 @@
                   <input
                     type="text"
                     placeholder="123 456"
-                    vname="sendersBalanceB"
+                    name="newbalanceOrig"
+                    required
                   />
                 </div>
               </div>
@@ -59,7 +76,8 @@
                   <input
                     type="text"
                     placeholder="2134559968"
-                    name="receiversAccountNum"
+                    name="nameDest"
+                    required
                   />
                 </div>
                 <div class="inputBox">
@@ -67,7 +85,8 @@
                   <input
                     type="text"
                     placeholder="123"
-                    name="receiversBalanceA"
+                    name="oldbalanceDest"
+                    required
                   />
                 </div>
                 <div class="inputBox">
@@ -75,7 +94,8 @@
                   <input
                     type="text"
                     placeholder="123 456"
-                    name="receiversBalanceB"
+                    name="newbalanceDest"
+                    required
                   />
                 </div>
               </div>
@@ -84,7 +104,7 @@
             <div class="row">
               <div class="inputBox">
                 <span>Does The Transaction Look Fradulent? </span>
-                <select name="IsFlaggedFraud" id="isFlaggedFraud">
+                <select name="isFlaggedFraud" id="isFlaggedFraud">
                   <option value="1">Yes</option>
                   <option value="0">No</option>
                 </select>
@@ -92,22 +112,26 @@
               <div class="inputBox">
                 <span>Transaction Type </span>
                 <select name="type" id="type">
-                  <option value="DEBIT">Debit</option>
+                  <option value="2">Debit</option>
                   <option value="4">Transfer</option>
                   <option value="3">Payment</option>
-                  <option value="CASH_IN">Cash In</option>
+                  <option value="0">Cash In</option>
                   <option value="1">Cash out</option>
                 </select>
               </div>
             </div>
           </div>
         </div>
-        <buttom type="submit" value="" class="submit-btn">PREDICT</buttom>
+        <input type="submit" value="PREDICT" class="submit-btn" />
+        <div class="alert" id="result">
+          <span
+            class="closebtn"
+            onclick="this.parentElement.style.display='none';"
+            >&times;</span
+          >
+          {{prediction_text}}
+        </div>
       </form>
-    </div>
-
-    <div>
-      <h2>{{prediction_text}}</h2>
     </div>
   </body>
 </html>

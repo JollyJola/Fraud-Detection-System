@@ -10,14 +10,27 @@ model = pickle.load(open('model.pkl', 'rb'))
 def home(): 
     return render_template("index.html")
 
-@app.route('/predict/')
+@app.route('/transaction/')
 def transaction(): 
     return render_template("transaction.html")
 
-@app.route('/transaction/', methods=['POST'])
+@app.route('/predict/', methods=['POST'])
 def predict(): 
-    fields = [float(x) for x in request.form.values()]
-    fieldArray = [np.array(fields)]
+    # if request.method == 'POST':
+    nameOrig = request.form.get("nameOrig")
+    oldbalanceOrg = request.form.get("oldbalanceOrg")
+    newbalanceOrig = request.form.get("newbalanceOrig")
+    amount = request.form.get("amount")
+    nameDest = request.form.get("nameDest")
+    oldbalanceDest = request.form.get("oldbalanceDest")
+    newbalanceDest = request.form.get("newbalanceDest")
+    type = request.form.get("type")
+    isFlaggedFraud = request.form.get("isFlaggedFraud")
+
+    fields = np.array([type, amount, nameOrig, oldbalanceOrg, newbalanceOrig, nameDest, oldbalanceDest, newbalanceDest, isFlaggedFraud])
+    fields2 = [float(x) for x in fields]
+    fieldArray = [np.array(fields2)]
+
     prediction = model.predict(fieldArray)
 
     if prediction == 0:
